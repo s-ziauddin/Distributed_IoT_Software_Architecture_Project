@@ -198,7 +198,7 @@ def robot_parameter(WS_thre,FS_thre,user_command):
     robot = Robot(1,500,default_WS_thre,500,default_FS_thre,default_user_command)
     return robot
 robot_1 = robot_parameter(WS_thre,FS_thre,user_command)
-
+```
 for creating robot, a function robot_parameter is defined, that is called later in the code with few parameters. This is done  to the handle the user command, when ever a robot receives user command, the function robot_parameter is called with the user desired value of parameter user_command, thus updating the robot parameters.
 
 In this project four IoT mobile robots have been created, each having individual python file namely, robot_1.py , robot_2.py , robot_3.py , robot_4.py .
