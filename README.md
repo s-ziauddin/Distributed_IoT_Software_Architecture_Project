@@ -190,7 +190,7 @@ FS_thre = 500
 user_command = "stop"
 
 """creating a robot"""
-
+```python
 def robot_parameter(WS_thre,FS_thre,user_command):
     default_WS_thre = WS_thre
     default_FS_thre = FS_thre
