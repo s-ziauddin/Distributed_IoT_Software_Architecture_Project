@@ -1,5 +1,6 @@
-**Title: Smart Agriculture system.**
-**Author**: SYED ZIA UDDIN
+**Title: Smart Agriculture system.** 
+**Author**: SYED ZIA UDDIN 
+
 
 **Objective:** The objective of this project is to automate daily task performed by farmer through the use of mobile robot. Each mobile robot will comprise of following features;
 1.	Mobile robots equipped with sensors and actuators.
