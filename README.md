@@ -250,16 +250,25 @@ To deploy service using docker container, following operation is performed for e
 Following is the example of **user service.**
 a.	Write a **docker file** and **requirement file**, both files can be written using notepad.
 i.	**Requirement.txt**
+
 		paho-mqtt==1.6.1
+
 		requests==2.31.0
 
 ii.	**Docker file**
+
 		FROM python:3.12-slim
+
 		WORKDIR /app
+
 		COPY requirements.txt .
+
 		RUN pip install --no-cache-dir -r requirements.txt
+
 		COPY . .
+
 		CMD ["python", "user_service.py"]
+
 
 b.	for each service, credentials such as api URL, MQTT credentials are loaded from environment to make the system portable, so that these can be modified in run time. Create .env file where variable of each service is defined. This is a single file located in project root, where variables for each service are defined. This file can be written using notepad.
 c.	In the project root, docker-compose.yaml file is written. This file is used by docker compose to build and run all the containers specified in the file.
