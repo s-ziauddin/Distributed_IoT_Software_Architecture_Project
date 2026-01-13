@@ -66,9 +66,13 @@ Robot class is written using the encapsulation and abstraction techniques of obj
 The measurement of sensors and status of actuators are observed through robot status method within the robot class.
 Sensors and actuators do not return timestamp with their outputs, this is done deliberately, because all the sensors and actuators are encapsulated in robot class, thus timestamp is returned in the robot status method within robot class.
 **Robotstatus method** within the robot class returns the data in JSON format.
+
 Each IoT robot publish telemetry data every 5 seconds
+
 Example of robot initialization:
+
 Robot (robot_id, water_tank_capacity, water_spray_threshold, fertilizer_tank_capacity, fertilizer_spray_threshold, user command)
+
 Each mobile robot is MQTT publisher & subscriber, it publishes data to Data manager & collector and subscribes to user commands via data collector & manager.
 
 **Each mobile robot publishes data on topic:** 
