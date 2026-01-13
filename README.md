@@ -9,7 +9,7 @@ The project has been developed using the distributed software architecture, part
 Two protocols are used in the project namely MQTT, a lightweight protocol based on pub/sub model. The protocol is responsible for data transfer between IoT mobile robots, data manager and user service.
 Another protocol that has been used is HTTP, which connects user service, Api server and Api user.
 
-			![System Architecture](images/system_architecture.png)
+ ![System Architecture](images/system_architecture.png)
 
 **Main components:**
 
