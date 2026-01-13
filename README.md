@@ -152,6 +152,7 @@ when sending commands, the data format is JSON and user can perform the followin
 **1.Start robot operation:**     
 {
 "robot_id": 1,
+
 "action":  "start"
 
 }
@@ -160,6 +161,7 @@ when sending commands, the data format is JSON and user can perform the followin
 
 {
 "robot_id": 1,
+
 "action":  "stop"
 
 }
@@ -167,8 +169,11 @@ when sending commands, the data format is JSON and user can perform the followin
 **3.Configure threshold values:**
 {
 "robot_id": 2,
+
 "action":  "config",
+
 "water_spray_thre" : 200,
+
 "ferti_spray_thre" : 200
 
 }
@@ -187,15 +192,11 @@ user_command = "stop"
 """creating a robot"""
 
 def robot_parameter(WS_thre,FS_thre,user_command):
-
-    
-
     default_WS_thre = WS_thre
     default_FS_thre = FS_thre
     default_user_command = user_command
     robot = Robot(1,500,default_WS_thre,500,default_FS_thre,default_user_command)
     return robot
-
 robot_1 = robot_parameter(WS_thre,FS_thre,user_command)
 
 for creating robot, a function robot_parameter is defined, that is called later in the code with few parameters. This is done  to the handle the user command, when ever a robot receives user command, the function robot_parameter is called with the user desired value of parameter user_command, thus updating the robot parameters.
