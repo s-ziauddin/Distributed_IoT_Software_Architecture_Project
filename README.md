@@ -184,10 +184,11 @@ WS_thre = 500
 FS_thre = 500
 user_command = "stop"
 
+"""creating a robot"""
 
 def robot_parameter(WS_thre,FS_thre,user_command):
 
-    """creating a robot"""
+    
 
     default_WS_thre = WS_thre
     default_FS_thre = FS_thre
@@ -204,12 +205,14 @@ To create more IoT robots, more python files, one for each robot will be require
 In python editor, just open the files robot_1.py, robot_2.py, robot_3.py,  robot_4.py  located in iot_robot folder in project directory and run the scripts, the robots will start publishing the telemetry data, and will be ready to receive the user commands.
 
 To run the robot_1.py script following python **libraries** are required;
+
 **paho-mqtt==1.6.1**
 
 **2.	Data Collector & Manager:**
 Data collector & manager is located in data_manager folder in project directory. 
 
 Following **libraries** are required to run data_manager.py script;
+
 **paho-mqtt==1.6.1**
 
 After running data_manager.py script, data manager will start receiving robots’ telemetry data, will publish robots, telemetry data for user service, similarly data manager will receive user commands through user service and will publish the command to specific robot based on robot id.
@@ -218,7 +221,9 @@ It is located in user service folder in project directory. Run user_service.py, 
 Similarly, user service will receive user command from Api server over HTTP and publish   the user command to data collector and manager.
 
 Following **libraries** are required to run user_server.py;
+
 **paho-mqtt==1.6.1**
+
 **requests==2.31.0**
 
 **4.	Api server & Postman:**
@@ -227,14 +232,17 @@ It is located in http-api folder in the project directory. Run api_server.py and
 Following **libraries** are required to run api_server.py script.
 
 **Flask~=2.3.2**
+
 **pyyaml~=6.0.1**
+
 **flask_restful~=0.3.10**
+
 
 **To receive robot data:** http://localhost:7070/api/v1/iot/inventory/device/1/robotdata
 Result will be like this:
 		![GET_MEHTOD](images/get_method.png)
 
-**To send user command: **
+**To send user command:**
 http://localhost:7070/api/v1/iot/inventory/device/robot/command
 result will be like this:
 		![POST_MEHTOD](images/post_method.png)
