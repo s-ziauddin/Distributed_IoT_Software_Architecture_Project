@@ -1,39 +1,43 @@
-Title: Smart Agriculture system.
+**Title: Smart Agriculture system.**
 
-Objective: The objective of this project is to automate daily task performed by farmer through the use of mobile robot. Each mobile robot will comprise of following features;
+**Objective:** The objective of this project is to automate daily task performed by farmer through the use of mobile robot. Each mobile robot will comprise of following features;
 1.	Mobile robots equipped with sensors and actuators.
 2.	Each mobile robot act as a IoT robot, that sends telemetry data and receive user commands over a network.
 
-Architecture:
+**Architecture:**
 The project has been developed using the distributed software architecture, particularly microservice architecture, where each service has a distinct role and responsibility, thus making a design more modular, scalable and reliable. Each service is deployed using a docker container, thus making a system portable. 
 Two protocols are used in the project namely MQTT, a lightweight protocol based on pub/sub model. The protocol is responsible for data transfer between IoT mobile robots, data manager and user service.
 Another protocol that has been used is HTTP, which connects user service, Api server and Api user.
 
-Main components:
-1.	Mobile robot: 
+![System Architecture](images/system_architecture.png)
+
+**Main components:**
+**1.	Mobile robot:** 
 Mobile robot is equipped with sensors and actuator. To model sensor and actuator and embed it into mobile robot object-oriented programming approach has been adapted, which makes the design structured, modular and scalable. 
 Using the concept of classes, device class has been created, which serves as parent class for sensors and actuators, then further subclasses of sensors, such as temperature sensor, soil moisture sensor, etc.  and subclasses of actuators, such as water sprinkler, fertilizer spray have been created. Figure 2 shows the classes and their subclasses.
 
  
-Phenomenon	Type (Sensor/Actuator)	   	Description
-Temperature	        Sensor			Measure the field temperature (emulated)
-Soil Moisture	        Sensor			Measure soil moisture as robot moves (emulated)
-Soil nutrient	        Sensor			Measure soil nutrient as robot moves (emulated)
-Battery level	        Sensor			Measures the battery level of robot (emulated)
-Water tank level	Sensor			Measure the water tank level of robot (emulated)
-Fertilizer tank level	Sensor			Measures the fertilizer tank level of robot (emulated)
-GPS	                Sensor			Location of mobile robot (emulated)
-Water sprinkler	        Actuator		Does the water spray based on soil moisture sensor readings and the threshold value
-Fertilizer spray 	Actuator		Does the fertilizer spray based on soil nutrient sensor and the threshold value
+|**Phenomenon** |	**Type (Sensor/Actuator)**	|   	**Description** |
+|-----------|---------------------------|-------------------|
+|Temperature   |	Sensor		|	Measure the field temperature (emulated)|
+|Soil Moisture |	Sensor		|	Measure soil moisture as robot moves (emulated)|
+|Soil nutrient	|       Sensor		|	Measure soil nutrient as robot moves (emulated)|
+|Battery level	|       Sensor		|	Measures the battery level of robot (emulated)|
+|Water tank level|	Sensor		|	Measure the water tank level of robot (emulated)|
+|Fertilizer tank level|	Sensor		|	Measures the fertilizer tank level of robot (emulated)|
+|GPS	              | Sensor		|	Location of mobile robot (emulated)|
+|Water sprinkler      | Actuator	|	Does the water spray based on soil moisture sensor readings and the threshold value|
+|Fertilizer spray     |	Actuator	|	Does the fertilizer spray based on soil nutrient sensor and the threshold value|
 
-Sensor Data Model	Initialization attribute	Return value
-Temperature Sensor	           -			Ambient temperature value, unit
-Soil Moisture Sensor	           -			Value
-Soil Nutrient Sensor	           -			Value 
-Battery Level	                   -			Level (full, half, low)
-GPS	                           -			Latitude, longitude, altitude
-Water Tank Level Sensor	        Tank capacity	        Level (full, half, low), dead level
-fertilizer Tank Level Sensor	Tank capacity	        Level (full, half, low), dead level
+|**Sensor Data Model**|	**Initialization attribute**|	**Return value**|
+|-----------------|-----------------------------|-------------------|
+|Temperature Sensor|	           -	|		Ambient temperature value, unit|
+|Soil Moisture Sensor|	           -	|		Value|
+|Soil Nutrient Sensor|	           -	|		Value |
+|Battery Level	     |             -	|		Level (full, half, low)|
+|GPS	             |             -	|		Latitude, longitude, altitude|
+|Water Tank Level Sensor|    Tank capacity|	        Level (full, half, low), dead level|
+|fertilizer Tank Level Sensor|	Tank capacity|	        Level (full, half, low), dead level|
 
 Water tank level sensor model uses an attribute, tank capacity of data type integer. When water sprinkler is activated, the water sprinkler model returns activation signal, which is passed as attribute to read_value method with in water tank level sensor model.
 Fertilizer tank level sensor model uses an attribute, tank capacity of data type integer. When fertilizer spray is activated, the fertilizer spray model returns activation signal, which is passed as attribute to read_value method with in fertilizer tank level sensor model.
