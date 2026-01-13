@@ -1,0 +1,4 @@
+rest:
+  api_prefix: /api/v1/iot/inventory   # Prefix for all API endpoints
+  host: 0.0.0.0                       # Flask host (0.0.0.0 to allow external access)
+  port: 7070                           # Port to run the API server on

@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+
+  my-mosquitto-broker:
+    container_name: my-mosquitto-broker
+    image: eclipse-mosquitto:2.0.12
+    ports:
+      - "1883:1883"   
+    volumes:
+      - ./mqtt-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mqtt-broker/data:/mosquitto/data
+      - ./mqtt-broker/log:/mosquitto/log
+    restart: always
+    networks:
+      - iot_network
+
+  api-server:
+    build: ./http-api
+    container_name: api-server
+    ports:
+      - "${API_PORT}:7070"
+    environment:
+      - FLASK_ENV=production
+      - API_HOST=${API_HOST}
+      - API_PORT=${API_PORT}
+      - API_PREFIX=${API_PREFIX}
+    restart: always
+    networks:
+      - iot_network
+
+  data-manager:
+    build: ./data_manager
+    container_name: data-manager
+    depends_on:
+      - my-mosquitto-broker
+    environment:
+      - BROKER_IP=${BROKER_IP}
+      - BROKER_PORT=${BROKER_PORT}
+      - DEVICE_ID=${DEVICE_ID_DATA_MANAGER}
+      - CLIENT_ID=${CLIENT_ID_DATA_MANAGER}
+    restart: always
+    networks:
+      - iot_network
+
+  user-service:
+    build: ./user_service
+    container_name: user-service
+    depends_on:
+      - api-server
+      - my-mosquitto-broker
+    environment:
+      - BROKER_IP=${BROKER_IP}
+      - BROKER_PORT=${BROKER_PORT}
+      - DEVICE_ID=${DEVICE_ID_USER_SERVICE}
+      - CLIENT_ID=${CLIENT_ID_USER_SERVICE}
+      - API_URL=http://api-server:${API_PORT}/api/v1/iot/inventory/device
+      - API_USER_COMMAND_URL=http://api-server:${API_PORT}/api/v1/iot/inventory/device/robot/command
+    restart: always
+    networks:
+      - iot_network
+
+networks:
+  iot_network:
+    driver: bridge
+
