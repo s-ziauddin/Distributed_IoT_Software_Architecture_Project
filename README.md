@@ -1,4 +1,5 @@
 **Title: Smart Agriculture system.**
+**Author**: SYED ZIA UDDIN
 
 **Objective:** The objective of this project is to automate daily task performed by farmer through the use of mobile robot. Each mobile robot will comprise of following features;
 1.	Mobile robots equipped with sensors and actuators.
@@ -179,7 +180,9 @@ user_command = "stop"
 
 
 def robot_parameter(WS_thre,FS_thre,user_command):
-    # creating a robot
+
+    """creating a robot"""
+
     default_WS_thre = WS_thre
     default_FS_thre = FS_thre
     default_user_command = user_command
