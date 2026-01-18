@@ -15,7 +15,7 @@ Another protocol that has been used is HTTP, which connects user service, Api se
  ![System Architecture](images/system_architecture.png)
 
 **Project Structure**:
-
+```
 E:.
 |   .env
 |   .gitattributes
@@ -91,7 +91,7 @@ E:.
 |   |   
 |   \---database
 |       |   data_base.py
-|       |   __init__.py
+|       |   __init__.py ```
 
 
 **Main components:**
