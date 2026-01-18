@@ -91,7 +91,8 @@ E:.
 |   |   
 |   \---database
 |       |   data_base.py
-|       |   __init__.py ```
+|       |   __init__.py 
+```
 
 
 **Main components:**
