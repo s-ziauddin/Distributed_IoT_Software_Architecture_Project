@@ -17,10 +17,12 @@ account_topic_prefix = "/iot/smart_agriculture/"
 Robot_subscribe_topic = account_topic_prefix + Robot_subs_topic
 User_subscribe_topic = account_topic_prefix + user_subs_topic
 message_limit = 1
-global  Data ,Updated_data ,robot_1_data ,robot_2_data ,target_topic
+global  Data ,Updated_data ,robot_1_data ,robot_2_data ,target_topic ,QoS_level
 Data = None
 new_data = None
 updated_data = False
+QoS_level = 0
+
 lock = threading.Lock()
 # in memory storage for data manager
 db = Database()
@@ -32,11 +34,11 @@ def on_connect(client, userdata, flags, rc):
     # Subscribe to the command topic when connected
     client.subscribe(Robot_subscribe_topic,qos=1)
     print(f"Subscribed to topic: {Robot_subscribe_topic}")
-    client.subscribe(User_subscribe_topic,qos=1)
+    client.subscribe(User_subscribe_topic,qos=2)
     print(f"Subscribed to topic: {User_subscribe_topic}")
 
 def on_message(client, userdata, msg):
-    global Data ,updated_data ,target_topic
+    global Data ,updated_data ,target_topic ,QoS_level
     print(f"Message received on {msg.topic}: {msg.payload.decode()}")
     try:
         topic = msg.topic
@@ -51,14 +53,16 @@ def on_message(client, userdata, msg):
                 updated_data = True
                 db.add_data(robot_id,Data)
                 target_topic =f"/iot/smart_agriculture/device/{device_id}/data"
+                QoS_level = 1
 
         if topic == "/iot/smart_agriculture/device/US/command":
             new_data = json.loads(msg.payload.decode())
             robot_id = new_data.get("robot_id")
-            if new_data and new_data != Data:
+            if new_data and new_data !=Data:
                     Data= new_data
                     target_topic = f"/iot/smart_agriculture/device/DM1/{robot_id}"
                     updated_data = True
+                    QoS_level = 2
     except Exception as e:
         print("Error processing command:", e)
 
@@ -83,11 +87,15 @@ if __name__ == "__main__":
             for message_id in range(message_limit):
                 payload = Data
                 payload_string = json.dumps(payload)
-                infot = mqtt_client.publish(target_topic, payload_string,qos=1)
+                infot = mqtt_client.publish(target_topic, payload_string,QoS_level)
                 infot.wait_for_publish()
                 print(f"Message Sent: {message_id} Topic: {target_topic} Payload: {payload_string}")
                 updated_data = False
-        time.sleep(1)
+                QoS_level = 0
+                time.sleep(1)
+
+
+
     except KeyboardInterrupt:
         mqtt_client.loop_stop()
         mqtt_client.disconnect()

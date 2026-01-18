@@ -14,6 +14,86 @@ Another protocol that has been used is HTTP, which connects user service, Api se
 
  ![System Architecture](images/system_architecture.png)
 
+**Project Structure**:
+
+E:.
+|   .env
+|   .gitattributes
+|   docker-compose.yml
+|   project_structure.txt
+|   README.md
+|   requirements.txt  
++---.idea
+|          
++---.venv
+|
++---data_manager
+|   |   data_manager.py
+|   |   Dockerfile
+|   |   requirements.txt
+|   |   
+|   \---database
+|       |   data_base.py
+|       |   __init__.py            
++---devices
+|   |   actuator.py
+|   |   battery_level_sensor.py
+|   |   device.py
+|   |   fertilizer_spray.py
+|   |   fertilizer_tank_level_sensor.py
+|   |   gps.py
+|   |   sensor.py
+|   |   soil_moisture_sensor.py
+|   |   soil_nutrient_sensor.py
+|   |   temperature_sensor.py
+|   |   water_sprinkler.py
+|   |   water_tank_level_sensor.py
+|   |   __init__.py
+|           
++---http-api
+|   |   api_server.py
+|   |   config.yaml
+|   |   Dockerfile
+|   |   requirements.txt
+|   |   
+|   \---Resource
+|       |   robot_command_resource.py
+|       |   robot_data_resource.py
+               
++---images
+|       classes.png
+|       get_method.png
+|       post_method.png
+|       system_architecture.png
+      
++---iot_robots
+|   |   robot_1.py
+|   |   robot_2.py
+|   |   robot_3.py
+|   |   robot_4.py
+|   |   
+|   \---model
+|       |   robot.py
+|       |   __init__.py               
++---mqtt-broker
+|   |   mosquitto.conf
+|   |   README.md
+|   |   
+|   +---data
+|   \---log
++---ppt slide
+|       project_presentation.pptx
+|       
++---user_service
+|   |   Dockerfile
+|   |   requirements.txt
+|   |   user_service.py
+|   |   
+|   \---database
+|       |   data_base.py
+|       |   __init__.py
+
+
 **Main components:**
 
 **1. Mobile robot:** 
@@ -81,7 +161,13 @@ Each mobile robot is MQTT publisher & subscriber, it publishes data to Data mana
 **Each mobile robot is subscribed to topic:**
 /iot/smart_agriculture/device/DM1/<robot.id>
 
+**When publishing telemetry data to data manager / collector:**
+
 **QoS level = 1:** Since we don’t want to miss the data, and the data is less critical and we can afford duplicate messages.
+
+**When subscribing to data manager / collector:**
+
+**QoS Level = 2:** for subscription to user commands, every user command should be received exactly once.
 
 
 **2. Data Collector & Manager:**
@@ -106,7 +192,22 @@ Sharing of data & user command between data collector/ manager, mobile robots an
 **User Service --> Data Collector & Manager:**
 **Subscribed topic:** /iot/smart_agriculture/device/US/command
 
+**When subscribing to receive robots’ data:**
+
 **QoS level = 1:** Since we don’t want to miss the data, and the data is less critical and we can afford duplicate messages.
+
+**When publishing to user service:**
+
+**QoS level = 1:** Since we don’t want to miss the data, and the data is less critical and we can afford duplicate messages.
+
+**When subscribing to user service:**
+
+**QoS Level = 2:** for subscription to user commands, every user command should be received exactly once.
+
+**When publishing to user commands robots:**
+
+**QoS Level = 2:** To ensure delivery of user command to specific robot exactly once.
+
 
 **3.User Service:**
 It acts as bridge between data collector /manager and Api server. User service receives robot data from data collector/manager via **MQTT protocol** and expose this data to Api server through **Restful Api**.
@@ -130,7 +231,15 @@ http://localhost:7070/api/v1/iot/inventory/device/<robot.id>robotdata
 http://localhost:7070/api/v1/iot/inventory/device/robot/command
 
 JSON data format is used for exchange of mobile robot data and user commands, user service is deployed using docker container, thus making it portable.
+
+**When subscribing to data manager / collector:**
+
 **QoS level = 1:** Since we don’t want to miss the data, and the data is less critical and we can afford duplicate messages.
+
+**When publishing user command to data manager / collector:**
+
+**QoS Level = 2:** To ensure delivery of user command to specific robot exactly once.
+
 
 **4.API Server:**
 Its serves as main HTTP server implemented through Restful Api.

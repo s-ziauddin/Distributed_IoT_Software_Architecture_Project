@@ -113,7 +113,7 @@ if __name__== "__main__":
                     payload_string = json.dumps(payload)
                     target_topic = account_topic_prefix + command_topic
                     with lock:
-                        infot = mqtt_client.publish(target_topic, payload_string,qos =1)
+                        infot = mqtt_client.publish(target_topic, payload_string,qos =2)
                         infot.wait_for_publish()
                         print(f"[user service] Message Sent: {message_id} Topic: {target_topic} Payload: {payload_string} sent to data manager")
                     time.sleep(1)

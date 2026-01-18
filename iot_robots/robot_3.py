@@ -29,7 +29,7 @@ def robot_parameter(WS_thre,FS_thre,user_command):
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
     #Subscribe to the command topic when connected
-    client.subscribe(subscribe_topic,qos=1)
+    client.subscribe(subscribe_topic,qos=2)
     print(f"Subscribed to topic: {subscribe_topic}")
 
 def on_message(client, userdata, msg):
